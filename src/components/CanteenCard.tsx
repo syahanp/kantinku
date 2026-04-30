@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Clock, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { CanteenProfile, STORAGE_KEYS } from "../types";
 import { storage } from "../lib/storage";
 import { cn } from "../lib/utils";
@@ -83,11 +83,7 @@ export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardPr
         </div>
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest line-clamp-1 opacity-70 group-hover:opacity-100 transition-opacity">"{canteen.deskripsi || "Kantin kampus favorit mahasiswa."}"</p>
         
-        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-slate-400">
-            <Clock size={14} />
-            <span className="text-[10px] font-bold uppercase tracking-widest tracking-[0.1em]">{canteen.jamBuka} - {canteen.jamTutup}</span>
-          </div>
+        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-end">
           {openStatus ? (
             <div className="bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
               Pesan Sekarang →

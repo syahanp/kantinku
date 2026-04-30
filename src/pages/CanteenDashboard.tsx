@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, LayoutGrid, Package, ShoppingBag, Clock, PlusCircle, Image as ImageIcon, Check, X, ToggleLeft, ToggleRight, AlertTriangle } from "lucide-react";
+import { Plus, Edit2, Trash2, LayoutGrid, Package, ShoppingBag, PlusCircle, Image as ImageIcon, Check, X, ToggleLeft, ToggleRight, AlertTriangle } from "lucide-react";
 import { storage } from "../lib/storage";
 import { MenuItem, STORAGE_KEYS, Order, CanteenProfile } from "../types";
 import { useAuth } from "../context/AuthContext";
@@ -42,6 +42,22 @@ export default function CanteenDashboard() {
   useEffect(() => {
     refreshData();
   }, [user]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Ukuran file terlalu besar. Maksimal 2MB disarankan untuk performa terbaik.");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMenuForm(prev => ({ ...prev, foto: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSaveMenu = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,31 +148,6 @@ export default function CanteenDashboard() {
         ))}
       </div>
 
-      {/* Profile Status Banner */}
-      {profile && (
-        <div className={cn(
-          "p-8 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative",
-          profile.isTutupManual ? "bg-rose-50 border-rose-100 text-rose-700" : "bg-slate-900 border-slate-800 text-white"
-        )}>
-          {!profile.isTutupManual && (
-            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500 to-transparent" />
-            </div>
-          )}
-          <div className="flex items-center gap-6 relative">
-             <div className={cn("p-4 rounded-lg", profile.isTutupManual ? "bg-rose-100" : "bg-white/10 border border-white/10")}>
-               <Clock size={28} />
-             </div>
-             <div>
-                <p className="font-semibold text-[10px] uppercase tracking-[0.2em] mb-1">Status Operasional</p>
-                <p className="text-sm font-semibold opacity-90 uppercase tracking-tight">
-                  {profile.isTutupManual ? "Kantin Sedang Tutup Paksa" : `Kantin Aktif: ${profile.jamBuka} - ${profile.jamTutup}`}
-                </p>
-             </div>
-          </div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest opacity-40">Ubah status di halaman Pengaturan Akun</p>
-        </div>
-      )}
 
       {/* Menu List Section */}
       <section className="space-y-8">
@@ -259,9 +250,9 @@ export default function CanteenDashboard() {
                 exit={{ scale: 0.95, opacity: 0 }}
                 className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
              >
-                <form onSubmit={handleSaveMenu} className="p-10">
-                  <div className="flex justify-between items-center mb-10 border-b border-slate-100 pb-5">
-                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tighter uppercase">{editingMenu ? "Update Menu" : "Menu Baru"}</h3>
+                <form onSubmit={handleSaveMenu} className="p-7">
+                  <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <h3 className="text-lg font-bold text-slate-900 tracking-tighter uppercase">{editingMenu ? "Update Menu" : "Menu Baru"}</h3>
                     <button type="button" onClick={() => { setIsMenuModalOpen(false); setEditingMenu(null); }} className="p-2 text-slate-300 hover:text-slate-900 transition-colors">
                       <X size={24} />
                     </button>
@@ -361,20 +352,36 @@ export default function CanteenDashboard() {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 px-1">Foto Produk (URL)</label>
-                       <div className="relative">
-                          <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                          <input 
-                             value={menuForm.foto}
-                             onChange={e => setMenuForm({...menuForm, foto: e.target.value})}
-                             className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-mono text-[10px] text-slate-400"
-                          />
+                       <label className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 px-1">Foto Produk (Upload)</label>
+                       <div className="flex gap-4">
+                         {menuForm.foto && (
+                           <div className="w-24 h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 flex-shrink-0 group relative">
+                             <img src={menuForm.foto} alt="Preview" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                               <p className="text-[8px] text-white font-bold uppercase">Pratinjau</p>
+                             </div>
+                           </div>
+                         )}
+                         <div className="flex-1 relative">
+                           <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-200 rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-emerald-300 transition-all group">
+                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                               <ImageIcon className="w-6 h-6 mb-2 text-slate-400 group-hover:text-emerald-500 transition-colors" />
+                               <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Pilih Gambar</p>
+                             </div>
+                             <input 
+                               type="file" 
+                               className="hidden" 
+                               accept="image/*"
+                               onChange={handleFileChange}
+                             />
+                           </label>
+                         </div>
                        </div>
-                       <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-widest px-1 opacity-60">Gunakan link gambar dari internet atau placeholder picsum.</p>
+                       <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-widest px-1 opacity-60">Pilih gambar dari komputer Anda. Ukuran maks 2MB.</p>
                     </div>
                   </div>
 
-                  <div className="pt-10 border-t border-slate-100 grid grid-cols-2 gap-4 mt-8">
+                  <div className="pt-6 border-t border-slate-100 grid grid-cols-2 gap-4 mt-6">
                     <button type="button" onClick={() => { setIsMenuModalOpen(false); setEditingMenu(null); }} className="py-4 text-slate-400 rounded-lg font-semibold text-[10px] uppercase tracking-widest hover:text-slate-600 transition-colors">Batal</button>
                     <button type="submit" className="py-4 bg-slate-900 text-white rounded-lg font-semibold text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl active:scale-[0.98]">
                        {editingMenu ? "Simpan Perubahan" : "Tambahkan Menu"}

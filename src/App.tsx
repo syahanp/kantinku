@@ -45,7 +45,7 @@ function AppContent() {
 
     // Force refresh menus if request specifically for the new list
     const currentMenus = storage.get<any>(STORAGE_KEYS.MENUS);
-    const menusNeedUpdate = currentMenus.length < 10 || !currentMenus.some((m: any) => m.nama === "Ayam Goreng");
+    const menusNeedUpdate = currentMenus.length < 10 || !currentMenus.some((m: any) => m.foto === "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400");
 
     if (!hasStudent) {
       const studentId = "student_mock_1";
@@ -116,8 +116,8 @@ function AppContent() {
             { name: "Nasi Goreng", desc: "Nasi goreng spesial dengan telur mata sapi dan kerupuk.", price: 13000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400" },
             { name: "Mie Goreng", desc: "Mie goreng lezat dengan campuran sayur dan telur orak-arik.", price: 12000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400" },
             { name: "Gado-Gado", desc: "Sayuran segar dengan saus kacang kental yang otentik.", price: 11000, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" },
-            { name: "Soto Ayam", desc: "Soto ayam hangat dengan bumbu rempah asli pilihan.", price: 13000, img: "https://images.unsplash.com/photo-1610440042657-6dd2c498950c?w=400" },
-            { name: "Tempe Orek", desc: "Tempe orek kecap yang manis, pedas, dan gurih.", price: 8000, img: "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?w=400" },
+            { name: "Nasi Uduk", desc: "Nasi gurih dengan pendamping ayam suwir, telur, dan sambal.", price: 14000, img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { name: "Tempe Orek", desc: "Tumis tempe manis pedas dengan bumbu kecap meresap.", price: 8000, img: "https://images.unsplash.com/photo-1543332164-6e82f3555182?w=400" },
           ];
 
           menuTemplates.forEach((t, i) => {
