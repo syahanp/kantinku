@@ -9,11 +9,11 @@ import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import CanteenDashboard from "./pages/CanteenDashboard";
-import ProfilePage from "./pages/ProfilePage";
 import OrdersPage from "./pages/OrdersPage";
 import CanteenDetail from "./pages/CanteenDetail";
 import { UserRole, STORAGE_KEYS, User, CanteenProfile } from "./types";
-import Sidebar from "./components/Sidebar";
+import FloatingNavbar from "./components/FloatingNavbar";
+import { Store } from "lucide-react";
 import { storage } from "./lib/storage";
 
 function AppContent() {
@@ -148,8 +148,6 @@ function AppContent() {
 
     if (session.role === "user") {
       switch (currentPage) {
-        case "profile":
-          return <ProfilePage />;
         case "orders":
           return <OrdersPage role="user" />;
         case "canteen":
@@ -166,8 +164,6 @@ function AppContent() {
       }
     } else {
       switch (currentPage) {
-        case "profile":
-          return <ProfilePage />;
         case "orders":
           return <OrdersPage role="kantin" />;
         case "home":
@@ -186,19 +182,28 @@ function AppContent() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      <Sidebar 
-        currentPath={currentPage} 
-        onNavigate={(p) => {
-          setCurrentPage(p);
-          if (p !== "canteen") setSelectedCanteenId(null);
-        }} 
-      />
-      <main className="flex-1 lg:ml-64 p-4 md:p-8 overflow-y-auto">
+    <div className="min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 pb-32">
+      {/* Centered Logo Header */}
+      <header className="flex flex-col items-center pt-12 pb-8">
+        <div className="flex items-center gap-3 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-xl shadow-slate-900/20">
+          <Store size={24} className="text-emerald-400" />
+          <h1 className="text-xl font-bold uppercase tracking-[0.2em]">Kantinku</h1>
+        </div>
+      </header>
+
+      <main className="p-4 md:p-8 overflow-y-auto">
         <div className="max-w-6xl mx-auto">
           {view}
         </div>
       </main>
+
+      <FloatingNavbar 
+        activeTab={currentPage === "canteen" ? "home" : currentPage} 
+        onTabChange={(p) => {
+          setCurrentPage(p);
+          if (p !== "canteen") setSelectedCanteenId(null);
+        }} 
+      />
     </div>
   );
 }

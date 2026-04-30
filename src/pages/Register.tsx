@@ -47,7 +47,7 @@ export default function Register({ onNavigate }: RegisterProps) {
           <div className="w-14 h-14 bg-emerald-500 rounded flex items-center justify-center text-white shadow-xl shadow-emerald-500/20 mb-6 transition-transform hover:-rotate-6">
             <UserPlus size={28} />
           </div>
-          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase italic leading-none">Buat Akun</h1>
+          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">Buat Akun</h1>
           <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400 mt-3">Bergabung ke Ekosistem Kami</p>
         </div>
 

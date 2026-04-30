@@ -1,8 +1,9 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Store, ArrowRight, Star, Clock, ShieldCheck, ChevronRight } from "lucide-react";
+import { Store, ArrowRight, Clock, ShieldCheck, ChevronRight } from "lucide-react";
 import { STORAGE_KEYS, CanteenProfile } from "../types";
 import { storage } from "../lib/storage";
+import CanteenCard from "../components/CanteenCard";
 
 interface LandingPageProps {
   onNavigate: (page: string) => void;
@@ -13,26 +14,28 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      {/* Centered Hex Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center py-6">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="flex items-center justify-between gap-12 bg-slate-900/90 backdrop-blur-md px-8 py-3 rounded-2xl border border-white/10 shadow-2xl shadow-slate-900/40"
+        >
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate("landing")}>
-            <div className="w-10 h-10 bg-emerald-500 rounded flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 italic font-semibold">
-              K
-            </div>
-            <span className="font-semibold text-xl tracking-tighter uppercase italic text-slate-900">KantinKu</span>
+            <Store size={20} className="text-emerald-400" />
+            <span className="text-sm font-bold uppercase tracking-[0.2em] text-white leading-none">Kantinku</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#featured" className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 hover:text-emerald-600 transition-colors">Kantin Pilihan</a>
+          <div className="hidden md:flex items-center gap-8 border-l border-white/10 pl-8">
+            <a href="#featured" className="text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Eksplorasi</a>
             <button 
               onClick={() => onNavigate("login")}
-              className="bg-emerald-500 text-white px-8 py-3 rounded-lg text-[10px] font-semibold uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-xl shadow-emerald-500/20"
+              className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-500/20"
             >
               Masuk
             </button>
           </div>
-        </div>
+        </motion.div>
       </nav>
 
       {/* Hero Banner */}
@@ -48,7 +51,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <ShieldCheck size={16} />
               <span className="text-[10px] font-semibold uppercase tracking-widest">Digitalisasi Kantin Kampus</span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-semibold text-slate-900 tracking-tighter uppercase italic leading-[0.9] mb-8">
+            <h1 className="text-6xl md:text-7xl font-bold text-slate-900 tracking-tighter uppercase leading-tight mb-8">
               Jajan di Kampus <br />
               <span className="text-emerald-500">Tanpa Antri.</span>
             </h1>
@@ -87,7 +90,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             </div>
             <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 z-20 animate-bounce-slow">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white italic font-black">{canteens.length}+</div>
+                <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-black">{canteens.length}+</div>
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Kantin Aktif</p>
                   <p className="text-sm font-black text-slate-900">Di Kampus Anda</p>
@@ -103,7 +106,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-end justify-between mb-16">
             <div>
-              <h2 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase italic leading-none mb-4">Kantin Pilihan</h2>
+              <h2 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none mb-4">Kantin Pilihan</h2>
               <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest">Kantin terpopuler dengan rating terbaik minggu ini.</p>
             </div>
             <button 
@@ -116,45 +119,14 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {canteens.length > 0 ? canteens.map((kantin: CanteenProfile, idx: number) => {
-              const menuCount = storage.get<any>(STORAGE_KEYS.MENUS).filter((m: any) => m.kantinId === kantin.kantinId).length;
-              return (
-                <motion.div
-                  key={kantin.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -8 }}
-                  className="bg-white rounded-2xl overflow-hidden border border-slate-200 transition-all duration-300 group cursor-pointer"
-                  onClick={() => onNavigate("login")}
-                >
-                  <div className="aspect-[16/9] overflow-hidden grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700">
-                    <img src={kantin.fotoBanner || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=60"} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" alt={kantin.nama} />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                       <div className="flex items-center gap-2 text-amber-500">
-                        <Star size={14} className="fill-amber-500" />
-                        <span className="text-[10px] font-semibold uppercase">{(4.5 + idx * 0.1).toFixed(1)}</span>
-                      </div>
-                      <div className="text-[10px] font-semibold uppercase text-slate-400 tracking-widest">
-                        {menuCount} Menu
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold text-slate-900 uppercase tracking-tighter italic mb-2">{kantin.nama}</h3>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest line-clamp-1 mb-6">"{kantin.deskripsi || "Kantin kampus favorit mahasiswa."}"</p>
-                    <div className="flex items-center justify-between pt-6 border-t border-slate-50">
-                      <div className="flex items-center gap-2 text-slate-400">
-                        <Clock size={14} />
-                        <span className="text-[10px] font-semibold uppercase tracking-widest">{kantin.jamBuka} - {kantin.jamTutup}</span>
-                      </div>
-                      <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded text-[8px] font-semibold uppercase tracking-widest">Open Now</div>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            }) : (
+            {canteens.length > 0 ? canteens.map((kantin: CanteenProfile, idx: number) => (
+              <CanteenCard 
+                key={kantin.id}
+                idx={idx}
+                canteen={kantin}
+                onClick={() => onNavigate("login")}
+              />
+            )) : (
                 [1, 2, 3].map((i) => (
                   <div key={i} className="bg-slate-100 aspect-[16/9] rounded-2xl animate-pulse" />
                 ))
@@ -167,10 +139,10 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
       <footer className="py-20 border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center text-white italic font-semibold text-xs">
+            <div className="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center text-white font-semibold text-xs">
               K
             </div>
-            <span className="font-semibold text-lg tracking-tighter uppercase italic text-slate-900">KantinKu</span>
+            <span className="font-semibold text-lg tracking-tighter uppercase text-slate-900">KantinKu</span>
           </div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400">© 2024 Digital Campus Ecosystem</p>
           <div className="flex gap-8">

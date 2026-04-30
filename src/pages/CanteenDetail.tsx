@@ -370,7 +370,7 @@ export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetai
                       )}
                     </button>
                     
-                    <p className="mt-6 text-[9px] text-slate-400 font-semibold uppercase tracking-widest italic">
+                    <p className="mt-6 text-[9px] text-slate-400 font-semibold uppercase tracking-widest">
                       Silahkan scan kode QR di atas menggunakan aplikasi bank atau e-wallet pilihan Anda.
                     </p>
                   </div>

@@ -123,7 +123,7 @@ export default function OrdersPage({ role }: OrdersPageProps) {
           >
             <div className="bg-slate-50 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 gap-4">
                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center font-semibold text-emerald-600 border border-slate-200 text-xs italic">
+                  <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center font-semibold text-emerald-600 border border-slate-200 text-xs">
                     {order.kantinNama.charAt(0)}
                   </div>
                   <div>
@@ -134,7 +134,7 @@ export default function OrdersPage({ role }: OrdersPageProps) {
                <div className="flex items-center gap-3">
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">{new Date(order.waktuPesan).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   <div className={cn(
-                      "px-3 py-1 rounded text-[9px] font-semibold uppercase tracking-wider italic border",
+                      "px-3 py-1 rounded text-[9px] font-semibold uppercase tracking-wider border",
                       order.status === "Selesai" ? "bg-slate-800 text-white border-transparent" : "bg-emerald-50 text-emerald-600 border-emerald-100"
                   )}>
                     {order.status}
@@ -159,7 +159,7 @@ export default function OrdersPage({ role }: OrdersPageProps) {
                 {order.catatan && (
                   <div className="flex gap-3 p-4 bg-emerald-50 rounded-lg border border-dashed border-emerald-200 text-emerald-700">
                      <MessageSquareQuote size={14} className="shrink-0 mt-0.5" />
-                     <p className="text-[10px] font-semibold uppercase tracking-widest italic leading-relaxed">"{order.catatan}"</p>
+                     <p className="text-[10px] font-semibold uppercase tracking-widest leading-relaxed">"{order.catatan}"</p>
                   </div>
                 )}
               </div>
@@ -225,7 +225,7 @@ export default function OrdersPage({ role }: OrdersPageProps) {
              <div className="w-16 h-16 bg-slate-50 rounded flex items-center justify-center text-slate-300 mx-auto mb-4 border border-slate-100">
                <ClipboardList size={32} />
              </div>
-             <h3 className="text-lg font-semibold text-slate-600 uppercase tracking-tighter italic leading-none mb-2">Kosong...</h3>
+             <h3 className="text-lg font-semibold text-slate-600 uppercase tracking-tighter leading-none mb-2">Kosong...</h3>
              <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest">Belum ada pesanan {activeTab}</p>
           </div>
         )}
@@ -242,7 +242,7 @@ export default function OrdersPage({ role }: OrdersPageProps) {
                 exit={{ scale: 0.95, opacity: 0 }}
                 className="relative w-full max-w-sm bg-white rounded-2xl p-8 shadow-2xl"
              >
-                <h3 className="text-2xl font-semibold text-slate-900 tracking-tighter mb-2 uppercase text-center italic">Lezat?</h3>
+                <h3 className="text-2xl font-semibold text-slate-900 tracking-tighter mb-2 uppercase text-center">Lezat?</h3>
                 <p className="text-[10px] font-semibold text-slate-400 text-center mb-8 uppercase tracking-widest leading-relaxed">Berikan penilaian untuk membantu kantin kami.</p>
                 
                 <div className="flex justify-center gap-3 mb-10">

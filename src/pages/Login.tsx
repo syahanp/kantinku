@@ -38,7 +38,7 @@ export default function Login({ onNavigate }: LoginProps) {
           <div className="w-14 h-14 bg-emerald-500 rounded flex items-center justify-center text-white shadow-xl shadow-emerald-500/20 mb-6 group transition-transform hover:rotate-6">
             <Store size={28} />
           </div>
-          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase italic leading-none">KantinKu</h1>
+          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">KantinKu</h1>
           <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400 mt-3">Sistem Pemesanan Cerdas</p>
         </div>
 

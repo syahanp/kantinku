@@ -97,7 +97,7 @@ export default function CanteenDashboard() {
     <div className="space-y-10 animate-in fade-in duration-500">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase italic leading-none">Manajemen Kantin</h1>
+          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">Manajemen Kantin</h1>
           <p className="text-slate-500 mt-3 font-medium text-[10px] uppercase tracking-widest">Kelola menu dan pantau performa kantin Anda secara real-time.</p>
         </div>
         <button
@@ -126,7 +126,7 @@ export default function CanteenDashboard() {
                 <stat.icon size={20} />
               </div>
               <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2">{stat.label}</p>
-              <p className="text-3xl font-semibold text-slate-900 tracking-tighter uppercase italic">{stat.value}</p>
+              <p className="text-3xl font-semibold text-slate-900 tracking-tighter uppercase">{stat.value}</p>
             </div>
           </div>
         ))}
@@ -154,14 +154,14 @@ export default function CanteenDashboard() {
                 </p>
              </div>
           </div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest italic opacity-40">Ubah status di halaman Pengaturan Akun</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest opacity-40">Ubah status di halaman Pengaturan Akun</p>
         </div>
       )}
 
       {/* Menu List Section */}
       <section className="space-y-8">
         <div className="flex items-center gap-4">
-          <h2 className="text-xl font-semibold text-slate-900 tracking-widest uppercase italic">Katalog Menu</h2>
+          <h2 className="text-xl font-semibold text-slate-900 tracking-widest uppercase">Katalog Menu</h2>
           <div className="flex-1 h-[1px] bg-slate-200" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -177,11 +177,11 @@ export default function CanteenDashboard() {
               <div className="aspect-[4/3] w-full relative overflow-hidden bg-slate-100 border-b border-slate-100">
                 <img src={menu.foto} alt={menu.nama} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute top-4 left-4 flex gap-2">
-                   <div className="bg-slate-900 text-white px-3 py-1 rounded text-[8px] font-semibold uppercase tracking-widest italic">
+                   <div className="bg-slate-900 text-white px-3 py-1 rounded text-[8px] font-semibold uppercase tracking-widest">
                       {menu.kategori}
                    </div>
                    {!menu.isAvailable && (
-                     <div className="bg-rose-600 text-white px-3 py-1 rounded text-[8px] font-semibold uppercase tracking-widest italic animate-pulse">
+                     <div className="bg-rose-600 text-white px-3 py-1 rounded text-[8px] font-semibold uppercase tracking-widest animate-pulse">
                         Habis
                      </div>
                    )}
@@ -201,9 +201,9 @@ export default function CanteenDashboard() {
               <div className="p-6">
                  <div className="flex justify-between items-start mb-3">
                     <h4 className="text-sm font-semibold text-slate-800 uppercase tracking-tight truncate flex-1">{menu.nama}</h4>
-                    <span className="text-sm font-semibold text-emerald-600 italic ml-4">{formatCurrency(menu.harga)}</span>
+                    <span className="text-sm font-semibold text-emerald-600 ml-4">{formatCurrency(menu.harga)}</span>
                  </div>
-                 <p className="text-[10px] text-slate-400 font-medium mb-6 line-clamp-1 italic tracking-wide">"{menu.deskripsi}"</p>
+                 <p className="text-[10px] text-slate-400 font-medium mb-6 line-clamp-1 tracking-wide">"{menu.deskripsi}"</p>
                  
                  <div className="flex gap-2">
                     <button
@@ -241,7 +241,7 @@ export default function CanteenDashboard() {
                <div className="w-16 h-16 bg-slate-50 rounded-lg flex items-center justify-center text-slate-200 mx-auto mb-4 border border-slate-100">
                  <Package size={32} />
                </div>
-               <h3 className="text-lg font-semibold text-slate-600 uppercase tracking-tighter italic">Etalase Kosong</h3>
+               <h3 className="text-lg font-semibold text-slate-600 uppercase tracking-tighter">Etalase Kosong</h3>
                <p className="text-slate-400 text-[10px] font-semibold uppercase tracking-widest mt-2">Mulai tambahkan menu lezat kamu hari ini.</p>
             </div>
           )}
@@ -261,7 +261,7 @@ export default function CanteenDashboard() {
              >
                 <form onSubmit={handleSaveMenu} className="p-10">
                   <div className="flex justify-between items-center mb-10 border-b border-slate-100 pb-5">
-                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tighter uppercase italic">{editingMenu ? "Update Menu" : "Menu Baru"}</h3>
+                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tighter uppercase">{editingMenu ? "Update Menu" : "Menu Baru"}</h3>
                     <button type="button" onClick={() => { setIsMenuModalOpen(false); setEditingMenu(null); }} className="p-2 text-slate-300 hover:text-slate-900 transition-colors">
                       <X size={24} />
                     </button>
@@ -370,7 +370,7 @@ export default function CanteenDashboard() {
                              className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-mono text-[10px] text-slate-400"
                           />
                        </div>
-                       <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-widest italic px-1 opacity-60">Gunakan link gambar dari internet atau placeholder picsum.</p>
+                       <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-widest px-1 opacity-60">Gunakan link gambar dari internet atau placeholder picsum.</p>
                     </div>
                   </div>
 
