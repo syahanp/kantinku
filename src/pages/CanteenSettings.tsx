@@ -6,12 +6,10 @@ import { CanteenProfile, STORAGE_KEYS } from "../types";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "motion/react";
 import { cn } from "../lib/utils";
+import { useNavigate } from "react-router-dom";
 
-interface CanteenSettingsProps {
-  onBack: () => void;
-}
-
-export default function CanteenSettings({ onBack }: CanteenSettingsProps) {
+export default function CanteenSettings() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [profile, setProfile] = useState<CanteenProfile | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -85,7 +83,7 @@ export default function CanteenSettings({ onBack }: CanteenSettingsProps) {
       </Helmet>
       <div className="flex items-center justify-between">
         <button 
-          onClick={onBack}
+          onClick={() => navigate("/home")}
           className="p-3 bg-white rounded-xl border border-slate-200 text-slate-400 hover:text-slate-900 transition-all hover:shadow-lg active:scale-95"
         >
           <ArrowLeft size={20} />

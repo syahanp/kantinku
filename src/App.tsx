@@ -5,6 +5,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import StudentDashboard from "./pages/StudentDashboard";
@@ -20,18 +21,21 @@ import { storage } from "./lib/storage";
 import { HelmetProvider } from "react-helmet-async";
 
 function AppContent() {
-  const { session, user } = useAuth();
-  const [currentPage, setCurrentPage] = useState<string>("landing");
+  const { session } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [selectedCanteenId, setSelectedCanteenId] = useState<string | null>(null);
 
-  // Reset page to home when logging in
-  useEffect(() => {
-    if (session && (currentPage === "landing" || currentPage === "login")) {
-      setCurrentPage("home");
-    }
-  }, [session, currentPage]);
+  const [activeTab, setActiveTab] = useState<string>("home");
 
-  // Initialize mock data
+  // Handle redirect after login
+  useEffect(() => {
+    if (session && (location.pathname === "/" || location.pathname === "/login")) {
+      navigate("/home");
+    }
+  }, [session, location.pathname, navigate]);
+
+  // Handle initialization of mock data (same as before)
   useEffect(() => {
     const users = storage.get<User>(STORAGE_KEYS.USERS);
     
@@ -142,46 +146,16 @@ function AppContent() {
     }
   }, []);
 
-  // Simple state router
-  const view = useMemo(() => {
-    if (!session) {
-      if (currentPage === "login") return <Login onNavigate={(p) => setCurrentPage(p)} />;
-      return <LandingPage onNavigate={(p) => setCurrentPage(p)} />;
-    }
-
-    if (session.role === "user") {
-      switch (currentPage) {
-        case "orders":
-          return <OrdersPage role="user" />;
-        case "canteen":
-          return selectedCanteenId ? (
-            <CanteenDetail 
-              id={selectedCanteenId} 
-              onBack={() => setCurrentPage("home")} 
-              onGoToOrders={() => setCurrentPage("orders")}
-            />
-          ) : <StudentDashboard onSelectCanteen={(id) => { setSelectedCanteenId(id); setCurrentPage("canteen"); }} />;
-        case "home":
-        default:
-          return <StudentDashboard onSelectCanteen={(id) => { setSelectedCanteenId(id); setCurrentPage("canteen"); }} />;
-      }
-    } else {
-      switch (currentPage) {
-        case "orders":
-          return <OrdersPage role="kantin" />;
-        case "settings":
-          return <CanteenSettings onBack={() => setCurrentPage("home")} />;
-        case "home":
-        default:
-          return <CanteenDashboard onSettings={() => setCurrentPage("settings")} />;
-      }
-    }
-  }, [session, currentPage, selectedCanteenId]);
-
+  // Replaced simple state router with real routes below
+  
   if (!session) {
     return (
       <div className="min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-        {view}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
     );
   }
@@ -189,21 +163,44 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 pb-32">
       <FloatingNavbar 
-        activeTab={currentPage === "canteen" ? "home" : currentPage} 
+        activeTab={activeTab === "canteen" ? "home" : activeTab} 
         onTabChange={(p) => {
-          setCurrentPage(p);
-          if (p !== "canteen") setSelectedCanteenId(null);
+          setActiveTab(p);
+          if (p !== "canteen") {
+            setSelectedCanteenId(null);
+            navigate(`/${p}`);
+          }
         }} 
       />
 
       {/* Centered Logo Header */}
       <header className="flex flex-col items-center pt-12 pb-8">
-        <Logo />
+        <Logo onClick={() => navigate("/")} />
       </header>
 
       <main className="p-4 md:p-8 overflow-y-auto">
         <div className="max-w-6xl mx-auto">
-          {view}
+          <Routes>
+            <Route path="/home" element={
+              session.role === "user" ? (
+                <StudentDashboard />
+              ) : (
+                <CanteenDashboard />
+              )
+            } />
+            <Route path="/orders" element={<OrdersPage role={session.role === "user" ? "user" : "kantin"} />} />
+            <Route path="/settings" element={
+              session.role === "kantin" ? (
+                <CanteenSettings />
+              ) : <Navigate to="/home" replace />
+            } />
+            <Route path="/canteen/:id" element={
+              session.role === "user" ? (
+                <CanteenDetail />
+              ) : <Navigate to="/home" replace />
+            } />
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </Routes>
         </div>
       </main>
     </div>
@@ -214,7 +211,9 @@ export default function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <AppContent />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
       </AuthProvider>
     </HelmetProvider>
   );

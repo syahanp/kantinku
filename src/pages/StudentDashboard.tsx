@@ -6,11 +6,10 @@ import { CanteenProfile, STORAGE_KEYS, Rating } from "../types";
 import { useAuth } from "../context/AuthContext";
 import CanteenCard from "../components/CanteenCard";
 
-interface StudentDashboardProps {
-  onSelectCanteen: (id: string) => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export default function StudentDashboard({ onSelectCanteen }: StudentDashboardProps) {
+export default function StudentDashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [profiles, setProfiles] = useState<CanteenProfile[]>([]);
   const [search, setSearch] = useState("");
@@ -76,7 +75,7 @@ export default function StudentDashboard({ onSelectCanteen }: StudentDashboardPr
             key={c.kantinId} 
             idx={idx}
             canteen={c} 
-            onClick={() => onSelectCanteen(c.kantinId)} 
+            onClick={() => navigate(`/canteen/${c.kantinId}`)} 
           />
         ))}
         {filteredCanteens.length === 0 && (

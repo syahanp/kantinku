@@ -8,11 +8,10 @@ import CanteenCard from "../components/CanteenCard";
 
 import LandingNavbar from "../components/LandingNavbar";
 
-interface LandingPageProps {
-  onNavigate: (page: string) => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export default function LandingPage({ onNavigate }: LandingPageProps) {
+export default function LandingPage() {
+  const navigate = useNavigate();
   const canteens = storage.get<CanteenProfile>(STORAGE_KEYS.CANTIN_PROFILES);
 
   return (
@@ -22,7 +21,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
         <meta name="description" content="Pesan makanan favoritmu dari mana saja di ekosistem kantin modern kampus." />
       </Helmet>
       
-      <LandingNavbar onNavigate={onNavigate} />
+      <LandingNavbar />
 
       {/* Hero Banner */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">
@@ -46,14 +45,14 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
-                onClick={() => onNavigate("login")}
+                onClick={() => navigate("/login")}
                 className="bg-emerald-500 text-white px-10 py-5 rounded-xl font-semibold text-xs uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-3 active:scale-95 group"
               >
                 Mulai Sekarang
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button 
-                onClick={() => onNavigate("login")}
+                onClick={() => navigate("/login")}
                 className="bg-white text-slate-900 border border-slate-200 px-10 py-5 rounded-xl font-semibold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center justify-center gap-3"
               >
                 Cek Menu
@@ -96,7 +95,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
               <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest">Kantin terpopuler dengan rating terbaik minggu ini.</p>
             </div>
             <button 
-              onClick={() => onNavigate("login")}
+              onClick={() => navigate("/login")}
               className="text-emerald-600 text-[10px] font-semibold uppercase tracking-[0.3em] hover:text-emerald-700 transition-colors flex items-center gap-2 group"
             >
               Lihat Semua
@@ -110,7 +109,7 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
                 key={kantin.id}
                 idx={idx}
                 canteen={kantin}
-                onClick={() => onNavigate("login")}
+                onClick={() => navigate("/login")}
               />
             )) : (
                 [1, 2, 3].map((i) => (

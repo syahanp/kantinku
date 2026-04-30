@@ -4,12 +4,10 @@ import Logo from "../components/Logo";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { motion } from "motion/react";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 
-interface LoginProps {
-  onNavigate: (path: string) => void;
-}
-
-export default function Login({ onNavigate }: LoginProps) {
+export default function Login() {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("password11");
@@ -41,7 +39,7 @@ export default function Login({ onNavigate }: LoginProps) {
         className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 p-10 relative z-10"
       >
         <div className="flex flex-col items-center mb-10">
-          <Logo iconSize={28} textSize="text-3xl" className="px-8 py-4 mb-6" />
+          <Logo onClick={() => navigate("/")} iconSize={28} textSize="text-3xl" className="px-8 py-4 mb-6" />
           <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400">Sistem Pemesanan Cerdas</p>
         </div>
 
@@ -93,7 +91,7 @@ export default function Login({ onNavigate }: LoginProps) {
           <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
             Kembali ke Beranda?{" "}
             <button
-              onClick={() => onNavigate("landing")}
+              onClick={() => navigate("/")}
               className="text-emerald-500 hover:text-emerald-600 transition-colors ml-1"
             >
               Beranda

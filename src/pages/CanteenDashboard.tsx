@@ -7,11 +7,10 @@ import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
 import { cn, formatCurrency, generateId } from "../lib/utils";
 
-interface CanteenDashboardProps {
-  onSettings: () => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export default function CanteenDashboard({ onSettings }: CanteenDashboardProps) {
+export default function CanteenDashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [menus, setMenus] = useState<MenuItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -128,7 +127,7 @@ export default function CanteenDashboard({ onSettings }: CanteenDashboardProps) 
                {profile?.nama || "Manajemen Kantin"}
              </h1>
              <button 
-                onClick={onSettings}
+                onClick={() => navigate("/settings")}
                 className="p-3 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-emerald-500 hover:border-emerald-200 transition-all shadow-sm hover:shadow-lg active:scale-95"
              >
                 <Settings size={20} />

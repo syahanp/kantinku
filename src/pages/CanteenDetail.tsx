@@ -6,14 +6,11 @@ import { CanteenProfile, MenuItem, STORAGE_KEYS, Order, OrderItem } from "../typ
 import { motion, AnimatePresence } from "motion/react";
 import { cn, formatCurrency, generateId } from "../lib/utils";
 import { useAuth } from "../context/AuthContext";
+import { useParams, useNavigate } from "react-router-dom";
 
-interface CanteenDetailProps {
-  id: string;
-  onBack: () => void;
-  onGoToOrders: () => void;
-}
-
-export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetailProps) {
+export default function CanteenDetail() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [profile, setProfile] = useState<CanteenProfile | null>(null);
   const [menus, setMenus] = useState<MenuItem[]>([]);
@@ -101,12 +98,12 @@ export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetai
     setCartItems([]);
     setCatatan("");
     
-    setTimeout(() => {
-        setIsCheckoutModalOpen(false);
-        setShowQRIS(false);
-        setOrderSuccess(false);
-        onGoToOrders();
-    }, 1500);
+        setTimeout(() => {
+            setIsCheckoutModalOpen(false);
+            setShowQRIS(false);
+            setOrderSuccess(false);
+            navigate("/orders");
+        }, 1500);
   };
 
   if (!profile) return null;
@@ -118,7 +115,7 @@ export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetai
         <meta name="description" content={profile.deskripsi} />
       </Helmet>
       <button
-        onClick={onBack}
+        onClick={() => navigate("/home")}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors mb-6 group bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm w-fit text-[10px] font-semibold uppercase tracking-widest"
       >
         <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
