@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Save, ArrowLeft, Camera, MapPin, Tag, Type, AlignLeft } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { storage } from "../lib/storage";
 import { CanteenProfile, STORAGE_KEYS } from "../types";
 import { useAuth } from "../context/AuthContext";
@@ -78,6 +79,10 @@ export default function CanteenSettings({ onBack }: CanteenSettingsProps) {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <Helmet>
+        <title>Pengaturan Kantin | KantinKu</title>
+        <meta name="description" content="Perbarui profil dan identitas kantin Anda." />
+      </Helmet>
       <div className="flex items-center justify-between">
         <button 
           onClick={onBack}

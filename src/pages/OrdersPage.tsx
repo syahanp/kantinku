@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { storage } from "../lib/storage";
+import { Helmet } from "react-helmet-async";
 import { Order, STORAGE_KEYS, OrderStatus, Rating } from "../types";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
@@ -76,6 +77,10 @@ export default function OrdersPage({ role }: OrdersPageProps) {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
+      <Helmet>
+        <title>Pesanan Saya | KantinKu</title>
+        <meta name="description" content="Lacak status pesanan makanan Anda." />
+      </Helmet>
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-4xl font-semibold text-slate-900 leading-none tracking-tighter uppercase">Status Pesanan</h1>

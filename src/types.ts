@@ -22,6 +22,8 @@ export interface CanteenProfile {
   kategori: string;
   fotoBanner: string; // base64
   isTutupManual: boolean;
+  jamBuka?: string;
+  jamTutup?: string;
 }
 
 export interface MenuItem {
@@ -69,6 +71,7 @@ export interface Rating {
 
 export interface Session {
   userId: string;
+  name: string;
   role: UserRole;
 }
 

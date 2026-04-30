@@ -46,7 +46,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Find user by email and password
     const foundUser = users.find((u) => u.email === email && (!password || u.password === password));
     if (foundUser) {
-      const newSession = { userId: foundUser.id, role: foundUser.role as any };
+      const newSession: Session = { 
+        userId: foundUser.id, 
+        name: foundUser.name,
+        role: foundUser.role as any 
+      };
       storage.setObject(STORAGE_KEYS.SESSION, newSession);
       setSession(newSession);
       setUser(foundUser);

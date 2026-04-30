@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Search } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { storage } from "../lib/storage";
 import { CanteenProfile, STORAGE_KEYS, Rating } from "../types";
 import { useAuth } from "../context/AuthContext";
@@ -25,7 +26,9 @@ export default function StudentDashboard({ onSelectCanteen }: StudentDashboardPr
     
     const now = new Date();
     const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    return currentTime >= profile.jamBuka && currentTime <= profile.jamTutup;
+    const buka = profile.jamBuka || "07:00";
+    const tutup = profile.jamTutup || "18:00";
+    return currentTime >= buka && currentTime <= tutup;
   };
 
   const getAverageRating = (kantinId: string) => {
@@ -43,6 +46,10 @@ export default function StudentDashboard({ onSelectCanteen }: StudentDashboardPr
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <Helmet>
+        <title>Beranda | KantinKu</title>
+        <meta name="description" content="Temukan dan pesan makanan dari kantin favoritmu." />
+      </Helmet>
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex-1">
           <h1 className="text-4xl font-semibold text-slate-900 leading-none tracking-tighter uppercase">Halo, {user?.name.split(" ")[0]}!</h1>

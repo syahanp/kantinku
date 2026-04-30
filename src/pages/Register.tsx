@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Store, Mail, Lock, User, UserPlus } from "lucide-react";
 import { motion } from "motion/react";
+import { Helmet } from "react-helmet-async";
 import { generateId } from "../lib/utils";
 
 interface RegisterProps {
@@ -33,6 +34,10 @@ export default function Register({ onNavigate }: RegisterProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50 relative overflow-hidden">
+      <Helmet>
+        <title>Daftar | KantinKu</title>
+        <meta name="description" content="Buat akun KantinKu baru." />
+      </Helmet>
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-emerald-500 rounded-full blur-[120px] -ml-64 -mt-64" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-slate-500 rounded-full blur-[120px] -mr-64 -mb-64" />

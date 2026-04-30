@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { ArrowLeft, Star, ShoppingBag, Plus, Minus, X, Check, MapPin } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { storage } from "../lib/storage";
 import { CanteenProfile, MenuItem, STORAGE_KEYS, Order, OrderItem } from "../types";
 import { motion, AnimatePresence } from "motion/react";
@@ -112,6 +113,10 @@ export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetai
 
   return (
     <div className="animate-in fade-in duration-500 pb-24">
+      <Helmet>
+        <title>{profile.nama} | KantinKu</title>
+        <meta name="description" content={profile.deskripsi} />
+      </Helmet>
       <button
         onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors mb-6 group bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm w-fit text-[10px] font-semibold uppercase tracking-widest"

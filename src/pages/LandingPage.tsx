@@ -1,9 +1,12 @@
 import React from "react";
 import { motion } from "motion/react";
+import { Helmet } from "react-helmet-async";
 import { Store, ArrowRight, Clock, ShieldCheck, ChevronRight } from "lucide-react";
 import { STORAGE_KEYS, CanteenProfile } from "../types";
 import { storage } from "../lib/storage";
 import CanteenCard from "../components/CanteenCard";
+
+import LandingNavbar from "../components/LandingNavbar";
 
 interface LandingPageProps {
   onNavigate: (page: string) => void;
@@ -14,29 +17,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Centered Hex Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center py-6">
-        <motion.div 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="flex items-center justify-between gap-12 bg-slate-900/90 backdrop-blur-md px-8 py-3 rounded-2xl border border-white/10 shadow-2xl shadow-slate-900/40"
-        >
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate("landing")}>
-            <Store size={20} className="text-emerald-400" />
-            <span className="text-sm font-bold uppercase tracking-[0.2em] text-white leading-none">Kantinku</span>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8 border-l border-white/10 pl-8">
-            <a href="#featured" className="text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Eksplorasi</a>
-            <button 
-              onClick={() => onNavigate("login")}
-              className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-500/20"
-            >
-              Masuk
-            </button>
-          </div>
-        </motion.div>
-      </nav>
+      <Helmet>
+        <title>KantinKu | Digitalisasi Kantin Kampus Tanpa Antri</title>
+        <meta name="description" content="Pesan makanan favoritmu dari mana saja di ekosistem kantin modern kampus." />
+      </Helmet>
+      
+      <LandingNavbar onNavigate={onNavigate} />
 
       {/* Hero Banner */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">

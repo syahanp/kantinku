@@ -14,8 +14,10 @@ import OrdersPage from "./pages/OrdersPage";
 import CanteenDetail from "./pages/CanteenDetail";
 import { UserRole, STORAGE_KEYS, User, CanteenProfile } from "./types";
 import FloatingNavbar from "./components/FloatingNavbar";
-import { Store } from "lucide-react";
+import Logo from "./components/Logo";
 import { storage } from "./lib/storage";
+
+import { HelmetProvider } from "react-helmet-async";
 
 function AppContent() {
   const { session, user } = useAuth();
@@ -82,7 +84,8 @@ function AppContent() {
         });
         storage.set(STORAGE_KEYS.CANTIN_PROFILES, cleanedProfiles);
 
-        mockCanteens.forEach(c => {
+        const locations = ["Gedung A, Lt. 1", "Gedung B, Lt. Dasar", "Area Foodcourt Pusat", "Samping Gedung Perpustakaan", "Gedung C, Area Parkir"];
+        mockCanteens.forEach((c, index) => {
           storage.save<User>(STORAGE_KEYS.USERS, {
             id: c.id,
             name: c.name,
@@ -96,7 +99,7 @@ function AppContent() {
             kantinId: c.id,
             nama: c.name,
             deskripsi: c.desc,
-            lokasi: "Gedung A, Lt. 1",
+            lokasi: locations[index % locations.length],
             kategori: c.cat,
             fotoBanner: c.img,
             isTutupManual: false
@@ -185,20 +188,6 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 pb-32">
-      {/* Centered Logo Header */}
-      <header className="flex flex-col items-center pt-12 pb-8">
-        <div className="flex items-center gap-3 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-xl shadow-slate-900/20">
-          <Store size={24} className="text-emerald-400" />
-          <h1 className="text-xl font-bold uppercase tracking-[0.2em]">Kantinku</h1>
-        </div>
-      </header>
-
-      <main className="p-4 md:p-8 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
-          {view}
-        </div>
-      </main>
-
       <FloatingNavbar 
         activeTab={currentPage === "canteen" ? "home" : currentPage} 
         onTabChange={(p) => {
@@ -206,14 +195,27 @@ function AppContent() {
           if (p !== "canteen") setSelectedCanteenId(null);
         }} 
       />
+
+      {/* Centered Logo Header */}
+      <header className="flex flex-col items-center pt-12 pb-8">
+        <Logo />
+      </header>
+
+      <main className="p-4 md:p-8 overflow-y-auto">
+        <div className="max-w-6xl mx-auto">
+          {view}
+        </div>
+      </main>
     </div>
   );
 }
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </HelmetProvider>
   );
 }

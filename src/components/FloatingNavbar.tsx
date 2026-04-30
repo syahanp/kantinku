@@ -19,29 +19,31 @@ export default function FloatingNavbar({ activeTab, onTabChange }: FloatingNavba
   ];
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-slate-900/90 backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-2xl">
-      {menuItems.map((item) => (
-        <button
-          key={item.id}
-          onClick={() => onTabChange(item.id)}
-          className={cn(
-            "flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 relative group",
-            activeTab === item.id 
-              ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" 
-              : "text-slate-400 hover:text-white"
-          )}
-        >
-          <item.icon size={20} className={cn("transition-transform", activeTab === item.id ? "scale-110" : "group-hover:scale-110")} />
-          <span className="text-[10px] font-bold uppercase tracking-widest">{item.label}</span>
-          {activeTab === item.id && (
-            <motion.div 
-              layoutId="nav-active" 
-              className="absolute inset-0 bg-emerald-500 rounded-xl -z-10"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-          )}
-        </button>
-      ))}
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-slate-900/95 backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-2xl shadow-slate-900/40">
+      <div className="flex items-center gap-1 sm:gap-2">
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => onTabChange(item.id)}
+            className={cn(
+              "flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 relative group",
+              activeTab === item.id 
+                ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" 
+                : "text-slate-400 hover:text-white"
+            )}
+          >
+            <item.icon size={18} className={cn("transition-transform", activeTab === item.id ? "scale-110" : "group-hover:scale-110")} />
+            <span className="text-[10px] font-bold uppercase tracking-widest hidden sm:block">{item.label}</span>
+            {activeTab === item.id && (
+              <motion.div 
+                layoutId="nav-active" 
+                className="absolute inset-0 bg-emerald-500 rounded-xl -z-10"
+                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+          </button>
+        ))}
+      </div>
 
       <div className="w-[1px] h-6 bg-white/10 mx-2" />
 
@@ -53,8 +55,8 @@ export default function FloatingNavbar({ activeTab, onTabChange }: FloatingNavba
             showUserMenu ? "bg-white/10 text-white" : "text-slate-400 hover:text-white"
           )}
         >
-          <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-            <User size={14} className="text-emerald-500" />
+          <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+            <User size={16} className="text-emerald-500" />
           </div>
           <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Profil</span>
         </button>
@@ -67,9 +69,9 @@ export default function FloatingNavbar({ activeTab, onTabChange }: FloatingNavba
                 onClick={() => setShowUserMenu(false)} 
               />
               <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 className="absolute bottom-full right-0 mb-4 w-48 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
               >
                 <div className="p-4 border-b border-white/5">

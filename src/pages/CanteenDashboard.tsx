@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, LayoutGrid, Package, ShoppingBag, PlusCircle, Image as ImageIcon, Check, X, ToggleLeft, ToggleRight, AlertTriangle, Settings } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { storage } from "../lib/storage";
 import { MenuItem, STORAGE_KEYS, Order, CanteenProfile } from "../types";
 import { useAuth } from "../context/AuthContext";
@@ -90,6 +91,7 @@ export default function CanteenDashboard({ onSettings }: CanteenDashboardProps) 
       estimasiMenit: 15,
       foto: "https://picsum.photos/seed/food/400/400",
       isAvailable: true,
+      isHalal: true,
     });
     refreshData();
   };
@@ -115,6 +117,10 @@ export default function CanteenDashboard({ onSettings }: CanteenDashboardProps) 
 
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
+      <Helmet>
+        <title>{profile?.nama ? `${profile.nama} | Dashboard` : "Dashboard Kantin"} | KantinKu</title>
+        <meta name="description" content="Manajemen menu dan pesanan kantin Anda." />
+      </Helmet>
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="flex-1">
           <div className="flex items-center gap-4 mb-3">

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Star, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { CanteenProfile, STORAGE_KEYS } from "../types";
 import { storage } from "../lib/storage";
 import { cn } from "../lib/utils";
@@ -46,21 +46,21 @@ export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardPr
       </div>
 
       <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-slate-900 tracking-tighter group-hover:text-emerald-600 transition-colors uppercase leading-none">{canteen.nama}</h3>
-          <div className="bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-1.5 whitespace-nowrap shadow-sm shadow-emerald-500/5">
-            <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
-            {menuCount} Menu Tersedia
+        </div>
+
+        <div className="flex items-center gap-2 mb-4">
+          <MapPin size={10} className="text-emerald-500" />
+          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{canteen.lokasi || "Lokasi tidak tersedia"}</span>
+        </div>
+        
+        <div className="mt-4 pt-6 border-t border-slate-50 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="bg-emerald-50 text-emerald-600 text-[9px] font-medium uppercase tracking-widest px-2.5 py-1 rounded-full border border-emerald-100 shadow-sm shadow-emerald-500/5">
+              {menuCount} Menu
+            </span>
           </div>
-        </div>
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest line-clamp-1 opacity-70 group-hover:opacity-100 transition-opacity">"{canteen.deskripsi || "Kantin kampus favorit mahasiswa."}"</p>
-        
-        <div className="mt-4 flex items-center gap-2 text-slate-400">
-          <MapPin size={12} className="text-emerald-500" />
-          <span className="text-[9px] font-bold uppercase tracking-widest">{canteen.lokasi || "Lokasi tidak diset"}</span>
-        </div>
-        
-        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-end">
           <div className="bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
             Pesan Sekarang →
           </div>
