@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, LayoutGrid, Package, ShoppingBag, PlusCircle, Image as ImageIcon, Check, X, ToggleLeft, ToggleRight, AlertTriangle } from "lucide-react";
+import { Plus, Edit2, Trash2, LayoutGrid, Package, ShoppingBag, PlusCircle, Image as ImageIcon, Check, X, ToggleLeft, ToggleRight, AlertTriangle, Settings } from "lucide-react";
 import { storage } from "../lib/storage";
 import { MenuItem, STORAGE_KEYS, Order, CanteenProfile } from "../types";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
 import { cn, formatCurrency, generateId } from "../lib/utils";
 
-export default function CanteenDashboard() {
+interface CanteenDashboardProps {
+  onSettings: () => void;
+}
+
+export default function CanteenDashboard({ onSettings }: CanteenDashboardProps) {
   const { user } = useAuth();
   const [menus, setMenus] = useState<MenuItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -112,9 +116,21 @@ export default function CanteenDashboard() {
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">Manajemen Kantin</h1>
-          <p className="text-slate-500 mt-3 font-medium text-[10px] uppercase tracking-widest">Kelola menu dan pantau performa kantin Anda secara real-time.</p>
+        <div className="flex-1">
+          <div className="flex items-center gap-4 mb-3">
+             <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">
+               {profile?.nama || "Manajemen Kantin"}
+             </h1>
+             <button 
+                onClick={onSettings}
+                className="p-3 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-emerald-500 hover:border-emerald-200 transition-all shadow-sm hover:shadow-lg active:scale-95"
+             >
+                <Settings size={20} />
+             </button>
+          </div>
+          <p className="text-slate-500 font-medium text-[10px] uppercase tracking-widest">
+            {profile?.lokasi || "Kelola menu dan pantau performa kantin Anda secara real-time."}
+          </p>
         </div>
         <button
           onClick={() => setIsMenuModalOpen(true)}

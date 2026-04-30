@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { ArrowLeft, Star, Clock, ShoppingBag, Plus, Minus, X, Check } from "lucide-react";
+import { ArrowLeft, Star, ShoppingBag, Plus, Minus, X, Check, MapPin } from "lucide-react";
 import { storage } from "../lib/storage";
 import { CanteenProfile, MenuItem, STORAGE_KEYS, Order, OrderItem } from "../types";
 import { motion, AnimatePresence } from "motion/react";
@@ -141,9 +141,9 @@ export default function CanteenDetail({ id, onBack, onGoToOrders }: CanteenDetai
                 </div>
               </div>
               <h1 className="text-3xl font-semibold text-white tracking-tighter uppercase leading-none">{profile.nama}</h1>
-              <div className="flex items-center gap-2 text-white/70 mt-2">
-                <Clock size={14} />
-                <span className="text-[10px] font-semibold uppercase tracking-widest">{profile.jamBuka} - {profile.jamTutup}</span>
+              <div className="flex items-center gap-2 text-emerald-400 mt-2">
+                <MapPin size={14} />
+                <span className="text-[10px] font-semibold uppercase tracking-widest leading-none">{profile.lokasi || "Lokasi tidak diset"}</span>
               </div>
             </div>
           </div>

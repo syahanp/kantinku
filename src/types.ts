@@ -18,10 +18,9 @@ export interface CanteenProfile {
   kantinId: string;
   nama: string;
   deskripsi: string;
+  lokasi: string;
   kategori: string;
   fotoBanner: string; // base64
-  jamBuka: string; // HH:MM
-  jamTutup: string; // HH:MM
   isTutupManual: boolean;
 }
 

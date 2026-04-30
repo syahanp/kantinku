@@ -67,13 +67,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (newUser.role === "kantin") {
       const profiles = storage.get<any>(STORAGE_KEYS.CANTIN_PROFILES);
       profiles.push({
+        id: newUser.id,
         kantinId: newUser.id,
         nama: newUser.name,
         deskripsi: "Selamat datang di kantin kami!",
+        lokasi: "Gedung Lantai 1",
         kategori: "Semua",
-        fotoBanner: "https://picsum.photos/seed/canteen/800/400",
-        jamBuka: "08:00",
-        jamTutup: "17:00",
+        fotoBanner: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=60",
         isTutupManual: false,
       });
       storage.set(STORAGE_KEYS.CANTIN_PROFILES, profiles);

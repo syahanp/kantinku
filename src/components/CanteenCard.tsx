@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Star } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
 import { CanteenProfile, STORAGE_KEYS } from "../types";
 import { storage } from "../lib/storage";
 import { cn } from "../lib/utils";
@@ -12,26 +12,6 @@ interface CanteenCardProps {
 }
 
 export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardProps) {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
-
-  const isOpen = (jamBuka: string, jamTutup: string) => {
-    try {
-      const [bukaH, bukaM] = jamBuka.split(":").map(Number);
-      const [tutupH, tutupM] = jamTutup.split(":").map(Number);
-      
-      const nowMin = currentHour * 60 + currentMinute;
-      const bukaMin = bukaH * 60 + bukaM;
-      const tutupMin = tutupH * 60 + tutupM;
-
-      return nowMin >= bukaMin && nowMin <= tutupMin;
-    } catch {
-      return true; // Default to open if format is wrong
-    }
-  };
-
-  const openStatus = isOpen(canteen.jamBuka, canteen.jamTutup);
   const menuCount = storage.get<any>(STORAGE_KEYS.MENUS).filter((m: any) => m.kantinId === canteen.kantinId).length;
 
   return (
@@ -52,12 +32,9 @@ export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardPr
           referrerPolicy="no-referrer"
         />
         <div className="absolute top-4 left-4 flex gap-2">
-          <div className={cn(
-            "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg backdrop-blur-md",
-            openStatus ? "bg-emerald-500/90 text-white" : "bg-slate-900/90 text-white"
-          )}>
-            <span className={cn("w-1.5 h-1.5 rounded-full", openStatus ? "bg-white animate-pulse" : "bg-slate-400")} />
-            {openStatus ? "Open Now" : "Closed"}
+          <div className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg backdrop-blur-md bg-emerald-500/90 text-white">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            Buka Sekarang
           </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
@@ -66,11 +43,6 @@ export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardPr
             <p className="text-[9px] text-white uppercase font-black tracking-[0.2em]">{canteen.kategori}</p>
           </div>
         </div>
-        {!openStatus && (
-          <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center backdrop-blur-[2px]">
-            <span className="text-white font-black text-2xl uppercase tracking-tighter border-2 border-white px-6 py-2">CLOSED</span>
-          </div>
-        )}
       </div>
 
       <div className="p-6">
@@ -83,16 +55,15 @@ export default function CanteenCard({ canteen, onClick, idx = 0 }: CanteenCardPr
         </div>
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest line-clamp-1 opacity-70 group-hover:opacity-100 transition-opacity">"{canteen.deskripsi || "Kantin kampus favorit mahasiswa."}"</p>
         
+        <div className="mt-4 flex items-center gap-2 text-slate-400">
+          <MapPin size={12} className="text-emerald-500" />
+          <span className="text-[9px] font-bold uppercase tracking-widest">{canteen.lokasi || "Lokasi tidak diset"}</span>
+        </div>
+        
         <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-end">
-          {openStatus ? (
-            <div className="bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              Pesan Sekarang →
-            </div>
-          ) : (
-                <div className="text-slate-400 text-[9px] font-bold uppercase tracking-widest">
-                  Besok Lagi 👋
-                </div>
-          )}
+          <div className="bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+            Pesan Sekarang →
+          </div>
         </div>
       </div>
     </motion.div>

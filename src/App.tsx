@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import CanteenDashboard from "./pages/CanteenDashboard";
+import CanteenSettings from "./pages/CanteenSettings";
 import OrdersPage from "./pages/OrdersPage";
 import CanteenDetail from "./pages/CanteenDetail";
 import { UserRole, STORAGE_KEYS, User, CanteenProfile } from "./types";
@@ -95,10 +96,9 @@ function AppContent() {
             kantinId: c.id,
             nama: c.name,
             deskripsi: c.desc,
+            lokasi: "Gedung A, Lt. 1",
             kategori: c.cat,
             fotoBanner: c.img,
-            jamBuka: "08:00",
-            jamTutup: "17:00",
             isTutupManual: false
           });
         });
@@ -166,9 +166,11 @@ function AppContent() {
       switch (currentPage) {
         case "orders":
           return <OrdersPage role="kantin" />;
+        case "settings":
+          return <CanteenSettings onBack={() => setCurrentPage("home")} />;
         case "home":
         default:
-          return <CanteenDashboard />;
+          return <CanteenDashboard onSettings={() => setCurrentPage("settings")} />;
       }
     }
   }, [session, currentPage, selectedCanteenId]);
